@@ -184,7 +184,7 @@ h1 {
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+    width: 8%; /* Could be more or less, depending on screen size */
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0 5px 15px rgba(0,0,0,0.3); /* Optional shadow */
 }
