@@ -13,6 +13,7 @@
     </header>
 
     <div class="main-container">
+        <!-- Sidebar with Wallet and Game Controls -->
         <div class="sidebar">
             <div class="wallet-box">
                 <h2>Wallet:</h2>
@@ -31,9 +32,10 @@
                 <button class="cashout-button">Cashout</button>
             </div>
         </div>
+
+        <!-- Grid Section -->
         <div class="grid">
             <div class="card" onclick="changeColor(this)"></div>
-            <!-- Repeat the card div for a total of 25 cards -->
             <div class="card" onclick="changeColor(this)"></div>
             <div class="card" onclick="changeColor(this)"></div>
             <div class="card" onclick="changeColor(this)"></div>
@@ -57,19 +59,20 @@
             <div class="card" onclick="changeColor(this)"></div>
             <div class="card" onclick="changeColor(this)"></div>
             <div class="card" onclick="changeColor(this)"></div>
-          <div class="card" onclick="changeColor(this)"></div>
-           
-            
         </div>
+
+        <!-- Bet Display Box -->
         <div class="bet-display-box">
             <h2>Current Bet Amount:</h2>
             <div class="current-bet-amount">$0.00</div>
+            <h2>Bet History:</h2>
+            <ul class="bet-history"></ul>
         </div>
     </div>
 
     <script src="game.js"></script>
     <script>
-        // Redirect if user is not logged in
+        // Redirect if the user is not logged in
         if (localStorage.getItem('loggedIn') !== 'true') {
             window.location.href = 'index.html';
         }
