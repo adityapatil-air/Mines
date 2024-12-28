@@ -168,3 +168,18 @@ input::-moz-focus-inner {
   margin-top: 20px; /* Space above the footer */
   padding: 20px 0; /* Padding for footer */
 }
+
+
+/* Add this at the bottom of your CSS file */
+.link-button {
+  background: none;
+  color: #f2f2f2;
+  border: none;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 20px;
+}
+.link-button:hover {
+  color: #c2c2c5;
+}
