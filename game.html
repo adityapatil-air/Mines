@@ -9,6 +9,7 @@
 <body>
     <header>
         <h1>Mines</h1>
+        <button onclick="signOut()" class="signout-button">Sign Out</button>
     </header>
 
     <div class="main-container">
@@ -31,7 +32,8 @@
             </div>
         </div>
         <div class="grid">
-            <!-- Create 25 cards -->
+            <div class="card" onclick="changeColor(this)"></div>
+            <!-- Repeat the card div for a total of 25 cards -->
             <div class="card" onclick="changeColor(this)"></div>
             <div class="card" onclick="changeColor(this)"></div>
             <div class="card" onclick="changeColor(this)"></div>
@@ -55,8 +57,9 @@
             <div class="card" onclick="changeColor(this)"></div>
             <div class="card" onclick="changeColor(this)"></div>
             <div class="card" onclick="changeColor(this)"></div>
-            <div class="card" onclick="changeColor(this)"></div>
-            <div class="card" onclick="changeColor(this)"></div>
+          <div class="card" onclick="changeColor(this)"></div>
+           
+            
         </div>
         <div class="bet-display-box">
             <h2>Current Bet Amount:</h2>
@@ -64,22 +67,12 @@
         </div>
     </div>
 
-    <!-- Custom Modal -->
-    <div id="custom-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <p id="modal-message"></p>
-            <button id="modal-ok-button">OK</button>
-        </div>
-    </div>
-
     <script src="game.js"></script>
     <script>
-        // Check if user is logged in
+        // Redirect if user is not logged in
         if (localStorage.getItem('loggedIn') !== 'true') {
-            window.location.href = 'index.html'; // Redirect to the main page if not logged in
+            window.location.href = 'index.html';
         }
     </script>
-    
 </body>
 </html>
