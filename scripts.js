@@ -1,82 +1,52 @@
-let users = {};
+// Function to handle Google Sign-In
+async function onSignIn(response) {
+    if (response.credential) {
+        // Decode the ID token
+        const credential = response.credential;
+        const profile = jwt_decode(credential);
 
-// Fetch users from the JSON file
-fetch('users.json')
-  .then(response => response.json())
-  .then(data => {
-    users = data;
-  })
-  .catch(error => {
-    console.error('Error loading user data:', error);
-  });
+        console.log('Google Sign-In successful.');
+        console.log('Name:', profile.name);
+        console.log('Email:', profile.email);
 
-var current = null;
+        // Save user data locally
+        const email = profile.email;
+        localStorage.setItem('loggedIn', 'true');
+        localStorage.setItem('currentUser', email);
 
-document.querySelector('#userid').addEventListener('focus', function(e) {
-  if (current) current.pause();
-  current = anime({
-    targets: 'path',
-    strokeDashoffset: {
-      value: 0,
-      duration: 700,
-      easing: 'easeOutQuart'
-    },
-    strokeDasharray: {
-      value: '240 1386',
-      duration: 700,
-      easing: 'easeOutQuart'
+        // Fetch or initialize wallet balance from the backend
+        try {
+            const res = await fetch(`http://localhost:3000/wallet/${email}`);
+            if (res.ok) {
+                const data = await res.json();
+                localStorage.setItem('wallet', data.wallet); // Store wallet balance locally
+                console.log(`Wallet loaded: $${data.wallet}`);
+            } else if (res.status === 404) {
+                // If user is new, initialize wallet with $10,000
+                console.log('New user. Initializing wallet to $10,000.');
+                await fetch('http://localhost:3000/wallet', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, wallet: 10000 }),
+                });
+                localStorage.setItem('wallet', 10000); // Default wallet
+            }
+        } catch (error) {
+            console.error('Error fetching or initializing wallet:', error);
+        }
+
+        // Redirect to the game page
+        console.log('Redirecting to game.html...');
+        window.location.href = 'game.html';
+    } else {
+        console.error('Error in onSignIn: No credential received');
+        alert('An error occurred during the sign-in process. Please try again.');
     }
-  });
-});
+}
 
-document.querySelector('#password').addEventListener('focus', function(e) {
-  if (current) current.pause();
-  current = anime({
-    targets: 'path',
-    strokeDashoffset: {
-      value: -336,
-      duration: 700,
-      easing: 'easeOutQuart'
-    },
-    strokeDasharray: {
-      value: '240 1386',
-      duration: 700,
-      easing: 'easeOutQuart'
-    }
-  });
-});
-
-// Event listener for the "Submit" button
-document.querySelector('#submit').addEventListener('click', function(e) {
-  e.preventDefault(); // Prevent form submission
-  handleLogin();
-});
-
-// Event listener for Enter key press specifically in input fields
-document.querySelector('#userid').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') {
-    e.preventDefault(); // Prevent default form submission
-    handleLogin();
-  }
-});
-
-document.querySelector('#password').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') {
-    e.preventDefault(); // Prevent default form submission
-    handleLogin();
-  }
-});
-
-function handleLogin() {
-  const userid = document.querySelector('#userid').value;
-  const password = document.querySelector('#password').value;
-
-  if (users[userid] && users[userid] === password) {
-    console.log('Login successful, redirecting to game.html');
-    localStorage.setItem('loggedIn', 'true'); // Store the login status in localStorage
-    localStorage.setItem('currentUser', userid); // Store the current user ID
-    window.location.href = 'game.html'; // Redirect to the game page
-  } else {
-    alert('Invalid User ID or Password');
-  }
+// Function to handle Sign-Out
+function signOut() {
+    google.accounts.id.disableAutoSelect();
+    localStorage.clear();
+    window.location.href = 'index.html';
 }
