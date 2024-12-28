@@ -221,6 +221,7 @@ h1 {
 
 .bet-history li span {
     font-size: 0.9rem;
+    color: white;
 }
 
 .bet-history li .payout {
