@@ -12,13 +12,31 @@ body {
 header {
     width: 100%;
     display: flex;
-    justify-content: center; /* Center the heading horizontally */
-    padding: 20px 0;
+    justify-content: space-between; /* Space between title and sign-out button */
+    align-items: center; /* Align items vertically */
+    padding: 20px 30px; /* Adjusted padding */
+    box-sizing: border-box; /* Include padding in width calculations */
 }
 
 h1 {
     color: white;
     margin: 0;
+}
+
+/* Signout button styles */
+.signout-button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.signout-button:hover {
+    background-color: #d32f2f; /* Darker red on hover */
 }
 
 /* Main container styles */
@@ -166,6 +184,7 @@ h1 {
     font-size: 1.5rem;
     color: #61dafb; /* Same color as wallet amount */
 }
+
 /* Modal styles */
 .modal {
     display: none; /* Hidden by default */
