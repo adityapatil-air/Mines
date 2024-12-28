@@ -17,7 +17,6 @@ async function initializeWallet() {
     // Load wallet amount from localStorage
     let storedWalletAmount = localStorage.getItem(`wallet_${email}`);
     if (storedWalletAmount === null) {
-        // Set default wallet amount for new users
         walletAmount = 10000;
         localStorage.setItem(`wallet_${email}`, walletAmount);
     } else {
@@ -37,7 +36,6 @@ function startGame() {
     numberOfMines = parseInt(minesInput.value, 10);
     betAmount = parseFloat(betInput.value);
 
-    // Validate inputs
     if (isNaN(numberOfMines) || numberOfMines <= 0 || numberOfMines >= cards.length) {
         alert('Please enter a valid number of mines (1-24).');
         return;
@@ -47,12 +45,9 @@ function startGame() {
         return;
     }
 
-    // Deduct bet amount from wallet and set current bet amount
     updateWallet(-betAmount);
     currentBetAmount = betAmount;
     document.querySelector('.current-bet-amount').textContent = `$${currentBetAmount.toFixed(2)}`;
-
-    // Reset and set new mines
     resetGame();
     minePositions = generateMinePositions(cards.length, numberOfMines);
 }
@@ -60,7 +55,7 @@ function startGame() {
 // Function to handle clicking on a card
 function changeColor(card) {
     if (card.classList.contains('clicked')) {
-        return; // Prevent re-clicking on the same card
+        return;
     }
 
     const cards = Array.from(document.querySelectorAll('.card'));
@@ -68,23 +63,24 @@ function changeColor(card) {
     const isMine = minePositions.includes(cardIndex);
 
     if (isMine) {
-        card.style.backgroundColor = 'red'; // Bomb color
+        card.style.backgroundColor = 'red';
         card.classList.add('clicked');
+        logBetHistory(betAmount, 0);
         revealAllCards();
         setTimeout(() => {
             alert('BOOM! You hit a mine! Game over.');
             resetGame();
         }, 100);
     } else {
-        card.style.backgroundColor = 'green'; // Safe card color
+        card.style.backgroundColor = 'green';
         card.classList.add('clicked');
         const reward = calculateReward();
-        currentBetAmount += reward; // Update the current bet amount
+        currentBetAmount += reward;
         document.querySelector('.current-bet-amount').textContent = `$${currentBetAmount.toFixed(2)}`;
     }
 }
 
-// Function to calculate reward based on remaining safe cards
+// Function to calculate reward
 function calculateReward() {
     const totalCards = 25;
     const greenCards = totalCards - numberOfMines;
@@ -92,22 +88,19 @@ function calculateReward() {
     const remainingGreenCards = greenCards - revealedCards;
     const multiplier = remainingGreenCards > 0 ? totalCards / remainingGreenCards : 1;
 
-    return betAmount * multiplier; // Reward based on initial bet amount
+    return betAmount * multiplier;
 }
 
-// Function to update wallet balance locally and on the server
+// Function to update wallet balance
 function updateWallet(amount) {
     walletAmount += amount;
     if (walletAmount < 0) walletAmount = 0;
 
     const email = localStorage.getItem('currentUser');
     if (email) {
-        // Update wallet in localStorage and display
         localStorage.setItem(`wallet_${email}`, walletAmount);
     }
     document.querySelector('.wallet-amount').textContent = `$${walletAmount.toFixed(2)}`;
-
-    // Sync with the backend
     updateServerWallet();
 }
 
@@ -130,9 +123,9 @@ function revealAllCards() {
     const cards = document.querySelectorAll('.card');
     cards.forEach((card, index) => {
         if (minePositions.includes(index)) {
-            card.style.backgroundColor = 'red'; // Bomb color
+            card.style.backgroundColor = 'red';
         } else {
-            card.style.backgroundColor = 'green'; // Safe card color
+            card.style.backgroundColor = 'green';
         }
         card.classList.add('clicked');
     });
@@ -143,13 +136,13 @@ function resetGame() {
     const cards = document.querySelectorAll('.card');
     cards.forEach(card => {
         card.classList.remove('clicked');
-        card.style.backgroundColor = '#61dafb'; // Default card color
+        card.style.backgroundColor = '#61dafb';
     });
     currentBetAmount = 0;
     document.querySelector('.current-bet-amount').textContent = `$0.00`;
 }
 
-// Utility function to generate random mine positions
+// Function to generate random mine positions
 function generateMinePositions(totalCards, minesCount) {
     const positions = new Set();
     while (positions.size < minesCount) {
@@ -159,10 +152,29 @@ function generateMinePositions(totalCards, minesCount) {
     return Array.from(positions);
 }
 
+// Function to log bet history
+function logBetHistory(bet, outcome) {
+    const betHistory = document.querySelector('.bet-history');
+    const listItem = document.createElement('li');
+    const now = new Date();
+    const timestamp = now.toLocaleString();
+    const result = outcome > bet ? `+${(outcome - bet).toFixed(2)}` : `-${(bet - outcome).toFixed(2)}`;
+
+    listItem.innerHTML = `
+        <span>${timestamp}</span>
+        <span class="${outcome >= bet ? 'payout' : 'loss'}">
+            ${result}
+        </span>
+    `;
+
+    betHistory.prepend(listItem);
+}
+
 // Function to handle "Cashout"
 function handleCashout() {
     if (currentBetAmount > 0) {
         alert(`You cashed out with $${currentBetAmount.toFixed(2)}!`);
+        logBetHistory(betAmount, currentBetAmount);
         updateWallet(currentBetAmount);
         resetGame();
     } else {
@@ -181,7 +193,6 @@ window.onload = function () {
 
 // Sign-out functionality
 function signOut() {
-    // Keep wallet data between sessions, remove user session data
     localStorage.removeItem('currentUser');
     window.location.href = 'index.html';
 }
