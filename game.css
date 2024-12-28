@@ -14,7 +14,7 @@ header {
     display: flex;
     justify-content: space-between; /* Space between title and sign-out button */
     align-items: center; /* Align items vertically */
-    padding: 20px 30px; /* Adjusted padding */
+    padding: 20px 30px;
     box-sizing: border-box; /* Include padding in width calculations */
 }
 
@@ -36,7 +36,7 @@ h1 {
 }
 
 .signout-button:hover {
-    background-color: #d32f2f; /* Darker red on hover */
+    background-color: #d32f2f;
 }
 
 /* Main container styles */
@@ -45,10 +45,10 @@ h1 {
     flex-direction: row;
     align-items: flex-start;
     width: 100%;
-    max-width: 1200px; /* Optional: set a max-width for the container */
-    padding: 30px; /* Increase padding around the main container */
+    max-width: 1200px;
+    padding: 30px;
     box-sizing: border-box;
-    gap: 30px; /* Add gap between sidebar and grid */
+    gap: 30px;
 }
 
 /* Sidebar styles */
@@ -56,18 +56,18 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin-right: 30px; /* Increase space between sidebar and grid */
-    min-width: 200px; /* Optional: ensure sidebar has a minimum width */
+    margin-right: 30px;
+    min-width: 200px;
 }
 
 /* Wallet box styles */
 .wallet-box {
-    margin-bottom: 20px; /* Space between wallet and game controls */
+    margin-bottom: 20px;
     text-align: left;
-    background-color: #1c1e22; /* Background color to match the theme */
+    background-color: #1c1e22;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Optional: add shadow for better appearance */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .wallet-box h2 {
@@ -77,7 +77,7 @@ h1 {
 
 .wallet-amount {
     font-size: 1.5rem;
-    color: #61dafb; /* Wallet amount color */
+    color: #61dafb;
 }
 
 /* Game controls styles */
@@ -105,9 +105,9 @@ h1 {
 
 /* Specific styles for the Bet button */
 .bet-button {
-    width: 120px; /* Increased width */
-    background-color: #4CAF50; /* Green color */
-    margin-bottom: 10px; /* Spacing between buttons */
+    width: 120px;
+    background-color: #4CAF50;
+    margin-bottom: 10px;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
@@ -118,14 +118,14 @@ h1 {
 }
 
 .bet-button:hover {
-    background-color: #45a049; /* Darker green on hover */
+    background-color: #45a049;
 }
 
 /* Styles for the Cashout button */
 .cashout-button {
-    width: 120px; /* Same increased width */
-    background-color: #f44336; /* Red color */
-    margin-top: 10px; /* Spacing between buttons */
+    width: 120px;
+    background-color: #f44336;
+    margin-top: 10px;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
@@ -136,7 +136,7 @@ h1 {
 }
 
 .cashout-button:hover {
-    background-color: #d32f2f; /* Darker red on hover */
+    background-color: #d32f2f;
 }
 
 /* Grid styles */
@@ -144,38 +144,62 @@ h1 {
     display: grid;
     grid-template-columns: repeat(5, 100px);
     grid-gap: 10px;
-    flex: 1; /* Allow grid to take up the remaining space */
-    padding: 30px; /* Add padding inside the grid */
+    flex: 1;
+    padding: 30px;
 }
 
 /* Card styles */
 .card {
     width: 100px;
     height: 100px;
-    background-color: #61dafb; /* Initial color */
+    background-color: #61dafb;
     border-radius: 10px;
     transition: background-color 0.3s ease;
     cursor: pointer;
 }
 
 .card.clicked {
-    cursor: not-allowed; /* Optional: change cursor to indicate card is disabled */
-    opacity: 0.5; /* Optional: make clicked cards look faded */
+    cursor: not-allowed;
+    opacity: 0.5;
 }
 
-/* Styles for the Bet Display Box */
-.bet-display-box {
+/* Right Sidebar Styles */
+.right-sidebar {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    min-width: 200px;
-    background-color: #1c1e22; /* Background color to match the theme */
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Optional: add shadow for better appearance */
+    gap: 20px; /* Space between current bet and bet history */
+    min-width: 250px;
 }
 
-.bet-display-box h2 {
+/* Current Bet Amount Styles */
+.current-bet-box {
+    background-color: #1c1e22;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    text-align: left;
+}
+
+.current-bet-box h2 {
+    margin: 0;
+    color: white;
+}
+
+.current-bet-amount {
+    font-size: 1.5rem;
+    color: #61dafb;
+}
+
+/* Bet History Styles */
+.bet-history-box {
+    background-color: #1c1e22;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    text-align: left;
+}
+
+.bet-history-box h2 {
     margin: 0;
     color: white;
 }
@@ -183,17 +207,16 @@ h1 {
 .bet-history {
     list-style: none;
     padding: 0;
-    margin: 0;
-    color: white;
-    max-height: 200px; /* Limit the height of the history list */
-    overflow-y: auto; /* Add scrolling if content exceeds height */
+    margin: 10px 0 0;
+    max-height: 200px; /* Limit the height for scrolling */
+    overflow-y: auto;
 }
 
 .bet-history li {
     display: flex;
     justify-content: space-between;
     padding: 5px 0;
-    border-bottom: 1px solid #444; /* Optional separator for clarity */
+    border-bottom: 1px solid #444;
 }
 
 .bet-history li span {
@@ -201,9 +224,9 @@ h1 {
 }
 
 .bet-history li .payout {
-    color: #61dafb; /* Color for winnings */
+    color: #61dafb;
 }
 
 .bet-history li .loss {
-    color: #f44336; /* Color for losses */
+    color: #f44336;
 }
